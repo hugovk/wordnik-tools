@@ -180,7 +180,7 @@ if __name__ == "__main__":
             print("Post to Wordnik")
             word_tools.add_to_wordnik([args.word], args.list)
 
-            url = "https://www.wordnik.com/words/" + args.word + "#discuss"
+            url = "https://www.wordnik.com/words/" + args.word  # + "#discuss"
             print(url)
             webbrowser.open(url, new=2)  # 2 = open in a new tab, if possible
 
