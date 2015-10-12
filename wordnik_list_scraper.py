@@ -6,11 +6,9 @@ Scrapes because API only allows access to your own lists.
 """
 from __future__ import print_function
 import argparse
-import sys
 import urllib2
-import yaml
 from bs4 import BeautifulSoup  # pip install BeautifulSoup4
-from pprint import pprint
+# from pprint import pprint
 
 
 def scrape_list(permalink):
@@ -19,11 +17,14 @@ def scrape_list(permalink):
     page = urllib2.urlopen(url)
     soup = BeautifulSoup(page.read())
     wordlist = soup.find(id="sortable_wordlist")
-    words = wordlist.find_all("li", class_= "word")
+    words = wordlist.find_all("li", class_="word")
 
     # <li class="word"><a href="/words/thinhead">thinhead</a>
-    #   <span class="popular" style="display:none">and appears on <a href="/words/thinhead#lists">2</a> lists</span>
-    #   <span class="details">was added by <a href="/users/hernesheir">hernesheir</a> and appears on <a href="/words/thinhead#lists">2</a> lists</span>
+    #   <span class="popular" style="display:none">and appears on
+    #       <a href="/words/thinhead#lists">2</a> lists</span>
+    #   <span class="details">was added by
+    #       <a href="/users/hernesheir">hernesheir</a> and appears on
+    #       <a href="/words/thinhead#lists">2</a> lists</span>
     # </li>
 
     # pprint(words)
