@@ -2,6 +2,13 @@
 # encoding: utf-8
 """
 Make a citation for Wordnik.
+
+1. Formats the citation input into a comment marked up with HTML
+2. Asks to add to Wordnik
+3. If you do, automatically adds it to the list
+4. Wordnik has no API to add comments, so copies the citation to the clipboard
+   and opens the word's page so you can manually paste it into the comment box
+5. Asks to save the cited URL to the Internet Archive because linkrot
 """
 from __future__ import print_function, unicode_literals
 import argparse
@@ -76,7 +83,7 @@ def query_yes_no(question, default="yes"):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="TODO.",
+        description="Make a citation for Wordnik.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         'word',
