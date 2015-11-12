@@ -60,6 +60,6 @@ if __name__ == "__main__":
     if not args.outfile:
         args.outfile = args.permalink + ".txt"
     with open(args.outfile, 'w') as f:
-        f.write(word_string)
+        f.write(word_string.encode("utf-8"))
 
 # End of file
