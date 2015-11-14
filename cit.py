@@ -81,6 +81,11 @@ def query_yes_no(question, default="yes"):
                              "(or 'y' or 'n').\n")
 
 
+def today_timestamp():
+    """Return a string like 14 December 2015"""
+    import time
+    return time.strftime('%d %B %Y')
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Make a citation for Wordnik.",
@@ -98,14 +103,14 @@ if __name__ == "__main__":
         '-q', '--quote', type=lambda s: unicode(s, 'utf8'),
         help="Quotation snippet")
     parser.add_argument(
-        '-s', '--source',
+        '-s', '--source', default="The Guardian",
         help="Quotation source")
     parser.add_argument(
         '-sr', '--source_roman', action='store_true',
         help="Quotation source in roman (i.e. not italic)?")
     parser.add_argument(
         '-d', '--date',
-        help="Quotation date")
+        help="Quotation date. Default: today.")
     parser.add_argument(
         '-u', '--url',
         help="Quotation link")
@@ -156,6 +161,8 @@ if __name__ == "__main__":
             line += '<i>' + args.source + '</i>'
     if args.date:
         line += ', ' + args.date
+    else:
+        line += ', ' + today_timestamp()
     if args.url:
         line += '</a>'
     if len(line) > 0:
