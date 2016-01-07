@@ -115,7 +115,7 @@ if __name__ == "__main__":
         '-u', '--url',
         help="Quotation link")
     parser.add_argument(
-        '-l', '--list', default="new-to-me--2015",
+        '-l', '--list', default="new-to-me--2016",
         help="Permalink of the Wordnik list to post to")
     args = parser.parse_args()
 
