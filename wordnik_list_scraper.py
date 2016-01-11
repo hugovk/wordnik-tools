@@ -15,7 +15,7 @@ def scrape_list(permalink):
     # """Scrape a Wordnik list and return a list of words"""
     url = "https://wordnik.com/lists/" + permalink
     page = urllib2.urlopen(url)
-    soup = BeautifulSoup(page.read())
+    soup = BeautifulSoup(page.read(), "lxml")
     wordlist = soup.find(id="sortable_wordlist")
     words = wordlist.find_all("li", class_="word")
 
@@ -37,7 +37,7 @@ def scrape_list(permalink):
 
 def sort_words(word_list):
     """Case-insensitive sort"""
-    return sorted(words, key=lambda s: s.lower())
+    return sorted(word_list, key=lambda s: s.lower())
 
 
 if __name__ == "__main__":
