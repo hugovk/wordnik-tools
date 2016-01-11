@@ -16,7 +16,7 @@ install:
  - pip install pep8 pyflakes
 
 script:
- # Pretend tests
+ - nosetests
  - pep8 --statistics --count .
  - pyflakes . | tee >(wc -l)
 

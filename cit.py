@@ -13,10 +13,14 @@ Make a citation for Wordnik.
 from __future__ import print_function, unicode_literals
 import argparse
 from sys import platform as _platform
+from dateutil.parser import parse  # pip install python-dateutil
+from dateutil.relativedelta import relativedelta
 
+import datetime
 import subprocess
 import sys
 import webbrowser
+
 
 # https://github.com/hugovk/word-tools/blob/master/word_tools.py
 import word_tools
@@ -86,6 +90,27 @@ def today_timestamp():
     import time
     return time.strftime('%d %B %Y')
 
+
+def parse_now_or_past(timestr):
+    """Parse a timestring. If no year given, return a date that's today or in
+    the past"""
+    indate = parse(timestr, dayfirst=True, yearfirst=False)
+    indate = indate.date()
+    now = datetime.datetime.now().date()
+    # In the future?
+    if indate > now:
+        # Subtract a year
+        indate += relativedelta(years=-1)
+    return indate
+
+
+def validate_date(timestr):
+    """Take an input date string, validate and perhaps add year,
+    and return a string like 14 December 2015"""
+    date = parse_now_or_past(timestr)
+    return date.strftime('%d %B %Y')
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Make a citation for Wordnik.",
@@ -93,6 +118,9 @@ if __name__ == "__main__":
     parser.add_argument(
         'word',
         help="Word to cite, will be bolded if found in quote")
+
+#     parser.add_argument('url', nargs='+', help="Quotation link")
+
     parser.add_argument(
         '-p', '--pos', default="n.",
         help="Part-of-speech, e.g. n. adj.")
@@ -160,7 +188,7 @@ if __name__ == "__main__":
         else:
             line += '<i>' + args.source + '</i>'
     if args.date:
-        line += ', ' + args.date
+        line += ', ' + validate_date(args.date)
     else:
         line += ', ' + today_timestamp()
     if args.url:
