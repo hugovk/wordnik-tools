@@ -13,9 +13,11 @@ python:
 sudo: false
 
 install:
- - pip install -r requirements.txt
+- if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then pip install -r requirements/python2.txt; fi
+- if [ ${TRAVIS_PYTHON_VERSION:0:1} == "3" ]; then pip install -r requirements/python3.txt; fi
  - wget https://raw.githubusercontent.com/hugovk/word-tools/master/word_tools.py
  - pip install pep8 pyflakes
+ - if [ "$TRAVIS_PYTHON_VERSION" == "2.6" ]; then pip install unittest2; fi
 
 script:
  - nosetests
