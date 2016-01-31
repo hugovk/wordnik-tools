@@ -17,6 +17,7 @@ from dateutil.parser import parse  # pip install python-dateutil
 from dateutil.relativedelta import relativedelta
 
 import datetime
+import re
 import subprocess
 import sys
 import webbrowser
@@ -109,6 +110,11 @@ def validate_date(timestr):
     and return a string like 14 December 2015"""
     date = parse_now_or_past(timestr)
     return date.strftime('%d %B %Y')
+
+
+def embolden(word, quote):
+    """Make word bold in quote, regardless of but maintaining case"""
+    return re.sub(r"(" + word + r")", r"<b>\1</b>", quote, flags=re.I)
 
 
 if __name__ == "__main__":
@@ -204,7 +210,7 @@ if __name__ == "__main__":
     if args.quote:
         quote = args.quote
         if args.word:
-            quote = quote.replace(args.word, '<b>' + args.word + '</b>')
+            quote = embolden(args.word, quote)
         line = '<blockquote>' + quote + '</blockquote>'
         print(line)
         print()

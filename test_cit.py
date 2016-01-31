@@ -74,6 +74,73 @@ class TestIt(unittest.TestCase):
         # Assert
         self.assertEqual(ret, "11 January 2016")
 
+    def test_embolden_lc_lc_lc(self):
+        # Arrange
+        word = "this"
+        quote = "make this and this bold"
+
+        # Act
+        ret = cit.embolden(word, quote)
+
+        # Assert
+        self.assertEqual(ret, "make <b>this</b> and <b>this</b> bold")
+
+    def test_embolden_uc_uc_uc(self):
+        # Arrange
+        word = "THIS"
+        quote = "make THIS and THIS bold"
+
+        # Act
+        ret = cit.embolden(word, quote)
+
+        # Assert
+        self.assertEqual(ret, "make <b>THIS</b> and <b>THIS</b> bold")
+
+    def test_embolden_lc_lc_uc(self):
+        # Arrange
+        word = "this"
+        quote = "make this and THIS bold"
+
+        # Act
+        ret = cit.embolden(word, quote)
+
+        # Assert
+        self.assertEqual(ret, "make <b>this</b> and <b>THIS</b> bold")
+
+    def test_embolden_mixed_cases(self):
+        # Arrange
+        word = "THis"
+        quote = "make thIS and ThiS bold"
+
+        # Act
+        ret = cit.embolden(word, quote)
+
+        # Assert
+        self.assertEqual(ret, "make <b>thIS</b> and <b>ThiS</b> bold")
+
+    def test_embolden_mixed_cases(self):
+        # Arrange
+        word = "thing"
+        quote = "make things bold"
+
+        # Act
+        ret = cit.embolden(word, quote)
+
+        # Assert
+        self.assertEqual(ret, "make <b>thing</b>s bold")
+
+    def test_embolden_phrase(self):
+        # Arrange
+        word = "this phrase"
+        quote = "Embolden this phrase and 'This Phrase' and \"THIS PHRASE\"."
+
+        # Act
+        ret = cit.embolden(word, quote)
+
+        # Assert
+        self.assertEqual(ret, "Embolden <b>this phrase</b> and "
+                              "'<b>This Phrase</b>' and "
+                              "\"<b>THIS PHRASE</b>\".")
 
 if __name__ == '__main__':
     unittest.main()
