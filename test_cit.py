@@ -118,7 +118,7 @@ class TestIt(unittest.TestCase):
         # Assert
         self.assertEqual(ret, "make <b>thIS</b> and <b>ThiS</b> bold")
 
-    def test_embolden_mixed_cases(self):
+    def test_embolden_substring(self):
         # Arrange
         word = "thing"
         quote = "make things bold"
@@ -141,6 +141,39 @@ class TestIt(unittest.TestCase):
         self.assertEqual(ret, "Embolden <b>this phrase</b> and "
                               "'<b>This Phrase</b>' and "
                               "\"<b>THIS PHRASE</b>\".")
+
+    def test_source_from_url_theguardian(self):
+        # Arrange
+        url = ("http://www.theguardian.com/science/2016/jan/20/"
+               "ninth-planet-solar-system-edge-discovery-pluto")
+
+        # Act
+        ret = cit.source_from_url(url)
+
+        # Assert
+        self.assertEqual(ret, "The Guardian")
+
+    def test_source_from_url_washingtonpost(self):
+        # Arrange
+        url = ("https://www.washingtonpost.com/news/checkpoint/wp/2016/01/19/"
+               "more-u-s-military-drones-are-crashing-than-ever-as-new-"
+               "problems-emerge/")
+
+        # Act
+        ret = cit.source_from_url(url)
+
+        # Assert
+        self.assertEqual(ret, "Washington Post")
+
+    def test_source_from_url_twitter(self):
+        # Arrange
+        url = ("https://twitter.com/Chris_Boardman/status/691588823419977728")
+
+        # Act
+        ret = cit.source_from_url(url)
+
+        # Assert
+        self.assertEqual(ret, "@Chris_Boardman")
 
 if __name__ == '__main__':
     unittest.main()

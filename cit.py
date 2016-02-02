@@ -117,6 +117,22 @@ def embolden(word, quote):
     return re.sub(r"(" + word + r")", r"<b>\1</b>", quote, flags=re.I)
 
 
+def source_from_url(url):
+    """Get the source form the URL"""
+    if "theguardian.com" in url:
+        return "The Guardian"
+    elif "washingtonpost.com" in url:
+        return "Washington Post"
+    elif "bikeradar.com" in url:
+        return "BikeRadar"
+    elif url.startswith("https://twitter.com"):
+        username = url.lstrip("https://twitter.com")
+        first_slash = username.index("/")
+        username = username[:first_slash]
+        return "@" + username
+    return None
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Make a citation for Wordnik.",
@@ -137,7 +153,7 @@ if __name__ == "__main__":
         '-q', '--quote', type=lambda s: unicode(s, 'utf8'),
         help="Quotation snippet")
     parser.add_argument(
-        '-s', '--source', default="The Guardian",
+        '-s', '--source',
         help="Quotation source")
     parser.add_argument(
         '-sr', '--source_roman', action='store_true',
@@ -165,6 +181,9 @@ if __name__ == "__main__":
     # email archives to <b>spinning rust</b> this morning.</blockquote>
 
     print()
+
+    if args.url and not args.source:
+        args.source = source_from_url(args.url)
 
     # Line 1
     text = ''
