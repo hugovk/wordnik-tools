@@ -160,7 +160,7 @@ if __name__ == "__main__":
         description="Make a citation for Wordnik.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
-        'word',
+        'word', type=lambda s: unicode(s, 'utf8'),
         help="Word to cite, will be bolded if found in quote")
 
 #     parser.add_argument('url', nargs='+', help="Quotation link")
