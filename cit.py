@@ -20,7 +20,7 @@ import datetime
 import re
 import subprocess
 import sys
-import tldextract
+import tldextract  # pip install tldextract
 import webbrowser
 
 
