@@ -23,9 +23,13 @@ import sys
 import tldextract  # pip install tldextract
 import webbrowser
 
-
 # https://github.com/hugovk/word-tools/blob/master/word_tools.py
 import word_tools
+
+try:
+    input = raw_input  # raw_input in Py2 == input in Py3
+except NameError:
+    pass
 
 # from pprint import pprint
 
@@ -77,7 +81,7 @@ def query_yes_no(question, default="yes"):
 
     while True:
         sys.stdout.write(question + prompt)
-        choice = raw_input().lower()
+        choice = input().lower()
         if default is not None and choice == '':
             return valid[default]
         elif choice in valid:
@@ -155,12 +159,21 @@ def date_from_url(url):
     return None
 
 
+# http://stackoverflow.com/a/23085282/724176
+def commandline_arg(bytestring):
+    try:
+        unicode_string = bytestring.decode(sys.getfilesystemencoding())
+    except AttributeError:
+        unicode_string = bytestring
+    return unicode_string
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Make a citation for Wordnik.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
-        'word', type=lambda s: unicode(s, 'utf8'),
+        'word', type=commandline_arg,
         help="Word to cite, will be bolded if found in quote")
 
 #     parser.add_argument('url', nargs='+', help="Quotation link")
@@ -172,7 +185,7 @@ if __name__ == "__main__":
         '--defn',
         help="A definition")
     parser.add_argument(
-        '-q', '--quote', type=lambda s: unicode(s, 'utf8'),
+        '-q', '--quote', type=commandline_arg,
         help="Quotation snippet")
     parser.add_argument(
         '-s', '--source',
