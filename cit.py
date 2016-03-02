@@ -20,6 +20,7 @@ import datetime
 import re
 import subprocess
 import sys
+import tldextract
 import webbrowser
 
 
@@ -124,9 +125,8 @@ def embolden(word, quote):
 
 def source_from_url(url):
     """Get the source form the URL"""
-    if "theguardian.com" in url:
-        return "The Guardian"
-    elif "washingtonpost.com" in url:
+
+    if "washingtonpost.com" in url:
         return "Washington Post"
     elif "bikeradar.com" in url:
         return "BikeRadar"
@@ -135,6 +135,15 @@ def source_from_url(url):
         first_slash = username.index("/")
         username = username[:first_slash]
         return "@" + username
+
+    ext = tldextract.extract(url)
+    output = ext.domain
+
+    if output.startswith("the"):
+        output = "The " + output[3:]
+
+    return output.title()
+
 
 def date_from_url(url):
     """Get the date form the URL"""

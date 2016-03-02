@@ -152,7 +152,29 @@ class TestIt(unittest.TestCase):
                               "'<b>This Phrase</b>' and "
                               "\"<b>THIS PHRASE</b>\".")
 
-    def test_source_from_url_theguardian(self):
+    def test_source_from_url_washingtonpost(self):
+        # Arrange
+        url = ("https://www.washingtonpost.com/news/checkpoint/wp/2016/01/19/"
+               "more-u-s-military-drones-are-crashing-than-ever-as-new-"
+               "problems-emerge/")
+
+        # Act
+        ret = cit.source_from_url(url)
+
+        # Assert
+        self.assertEqual(ret, "Washington Post")
+
+    def test_source_from_url_twitter(self):
+        # Arrange
+        url = ("https://twitter.com/Chris_Boardman/status/691588823419977728")
+
+        # Act
+        ret = cit.source_from_url(url)
+
+        # Assert
+        self.assertEqual(ret, "@Chris_Boardman")
+
+    def test_source_from_url_generic_with_www_and_the(self):
         # Arrange
         url = ("http://www.theguardian.com/science/2016/jan/20/"
                "ninth-planet-solar-system-edge-discovery-pluto")
