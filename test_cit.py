@@ -188,7 +188,7 @@ class TestIt(unittest.TestCase):
     def test_source_from_url_generic_no_www(self):
         # Arrange
         url = ("http://yle.fi/uutiset/officials_see_signs_of_hybrid_warfare_in"
-        "_migrant_crisis/8672574")
+               "_migrant_crisis/8672574")
 
         # Act
         ret = cit.source_from_url(url)
