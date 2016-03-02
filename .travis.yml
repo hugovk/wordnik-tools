@@ -29,8 +29,8 @@ install:
 
 script:
  - nosetests
+ - pyflakes .
  - pep8 --statistics --count .
- - pyflakes . | tee >(wc -l)
 
 matrix:
   fast_finish: true
