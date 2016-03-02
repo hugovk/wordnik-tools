@@ -74,6 +74,16 @@ class TestIt(unittest.TestCase):
         # Assert
         self.assertEqual(ret, "11 January 2016")
 
+    def test_parse_date_to_string_2(self):
+        # Arrange
+        date = "feb-03-2016"
+
+        # Act
+        ret = cit.validate_date(date)
+
+        # Assert
+        self.assertEqual(ret, "3 February 2016")
+
     def test_embolden_lc_lc_lc(self):
         # Arrange
         word = "this"
@@ -142,17 +152,6 @@ class TestIt(unittest.TestCase):
                               "'<b>This Phrase</b>' and "
                               "\"<b>THIS PHRASE</b>\".")
 
-    def test_source_from_url_theguardian(self):
-        # Arrange
-        url = ("http://www.theguardian.com/science/2016/jan/20/"
-               "ninth-planet-solar-system-edge-discovery-pluto")
-
-        # Act
-        ret = cit.source_from_url(url)
-
-        # Assert
-        self.assertEqual(ret, "The Guardian")
-
     def test_source_from_url_washingtonpost(self):
         # Arrange
         url = ("https://www.washingtonpost.com/news/checkpoint/wp/2016/01/19/"
@@ -174,6 +173,52 @@ class TestIt(unittest.TestCase):
 
         # Assert
         self.assertEqual(ret, "@Chris_Boardman")
+
+    def test_source_from_url_generic_with_www_and_the(self):
+        # Arrange
+        url = ("http://www.theguardian.com/science/2016/jan/20/"
+               "ninth-planet-solar-system-edge-discovery-pluto")
+
+        # Act
+        ret = cit.source_from_url(url)
+
+        # Assert
+        self.assertEqual(ret, "The Guardian")
+
+    def test_source_from_url_generic_no_www(self):
+        # Arrange
+        url = ("http://yle.fi/uutiset/officials_see_signs_of_hybrid_warfare_in"
+               "_migrant_crisis/8672574")
+
+        # Act
+        ret = cit.source_from_url(url)
+
+        # Assert
+        self.assertEqual(ret, "Yle")
+
+    def test_date_from_url_yyyy_mm_dd(self):
+        # Arrange
+        url = ("https://www.washingtonpost.com/news/checkpoint/wp/2016/01/19/"
+               "more-u-s-military-drones-are-crashing-than-ever-as-new-"
+               "problems-emerge/")
+
+        # Act
+        ret = cit.date_from_url(url)
+
+        # Assert
+        self.assertEqual(ret, "19 January 2016")
+
+    def test_date_from_url_yyyy_mon_dd(self):
+        # Arrange
+        url = ("http://www.theguardian.com/science/2016/jan/20/"
+               "ninth-planet-solar-system-edge-discovery-pluto")
+
+        # Act
+        ret = cit.date_from_url(url)
+
+        # Assert
+        self.assertEqual(ret, "20 January 2016")
+
 
 if __name__ == '__main__':
     unittest.main()

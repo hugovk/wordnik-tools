@@ -20,6 +20,7 @@ import datetime
 import re
 import subprocess
 import sys
+import tldextract  # pip install tldextract
 import webbrowser
 
 
@@ -105,11 +106,16 @@ def parse_now_or_past(timestr):
     return indate
 
 
+def format_d_mon_yyyy(date):
+    """Return date formatted like 1 February 2016"""
+    return date.strftime('%d %B %Y').lstrip("0")
+
+
 def validate_date(timestr):
     """Take an input date string, validate and perhaps add year,
     and return a string like 14 December 2015"""
     date = parse_now_or_past(timestr)
-    return date.strftime('%d %B %Y')
+    return format_d_mon_yyyy(date)
 
 
 def embolden(word, quote):
@@ -119,9 +125,8 @@ def embolden(word, quote):
 
 def source_from_url(url):
     """Get the source form the URL"""
-    if "theguardian.com" in url:
-        return "The Guardian"
-    elif "washingtonpost.com" in url:
+
+    if "washingtonpost.com" in url:
         return "Washington Post"
     elif "bikeradar.com" in url:
         return "BikeRadar"
@@ -130,6 +135,23 @@ def source_from_url(url):
         first_slash = username.index("/")
         username = username[:first_slash]
         return "@" + username
+
+    ext = tldextract.extract(url)
+    output = ext.domain
+
+    if output.startswith("the"):
+        output = "The " + output[3:]
+
+    return output.title()
+
+
+def date_from_url(url):
+    """Get the date form the URL"""
+    try:
+        date = parse(url, fuzzy=True)
+        return format_d_mon_yyyy(date)
+    except (ValueError, OverflowError):
+        return None
     return None
 
 
@@ -138,7 +160,7 @@ if __name__ == "__main__":
         description="Make a citation for Wordnik.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
-        'word',
+        'word', type=lambda s: unicode(s, 'utf8'),
         help="Word to cite, will be bolded if found in quote")
 
 #     parser.add_argument('url', nargs='+', help="Quotation link")
@@ -184,6 +206,9 @@ if __name__ == "__main__":
 
     if args.url and not args.source:
         args.source = source_from_url(args.url)
+
+    if args.url and not args.date:
+        args.date = date_from_url(args.url)
 
     # Line 1
     text = ''
