@@ -105,11 +105,16 @@ def parse_now_or_past(timestr):
     return indate
 
 
+def format_d_mon_yyyy(date):
+    """Return date formatted like 1 February 2016"""
+    return date.strftime('%d %B %Y').lstrip("0")
+
+
 def validate_date(timestr):
     """Take an input date string, validate and perhaps add year,
     and return a string like 14 December 2015"""
     date = parse_now_or_past(timestr)
-    return date.strftime('%d %B %Y')
+    return format_d_mon_yyyy(date)
 
 
 def embolden(word, quote):
@@ -130,6 +135,14 @@ def source_from_url(url):
         first_slash = username.index("/")
         username = username[:first_slash]
         return "@" + username
+
+def date_from_url(url):
+    """Get the date form the URL"""
+    try:
+        date = parse(url, fuzzy=True)
+        return format_d_mon_yyyy(date)
+    except (ValueError, OverflowError):
+        return None
     return None
 
 
@@ -184,6 +197,9 @@ if __name__ == "__main__":
 
     if args.url and not args.source:
         args.source = source_from_url(args.url)
+
+    if args.url and not args.date:
+        args.date = date_from_url(args.url)
 
     # Line 1
     text = ''
