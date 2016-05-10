@@ -20,7 +20,6 @@ import datetime
 import re
 import subprocess
 import sys
-import tldextract  # pip install tldextract
 import webbrowser
 
 # https://github.com/hugovk/word-tools/blob/master/word_tools.py
@@ -130,7 +129,9 @@ def embolden(word, quote):
 def source_from_url(url):
     """Get the source form the URL"""
 
-    if "washingtonpost.com" in url:
+    if "nytimes.com" in url:
+        return "The New York Times"
+    elif "washingtonpost.com" in url:
         return "Washington Post"
     elif "bikeradar.com" in url:
         return "BikeRadar"
@@ -140,6 +141,7 @@ def source_from_url(url):
         username = username[:first_slash]
         return "@" + username
 
+    import tldextract  # pip install tldextract
     ext = tldextract.extract(url)
     output = ext.domain
 
@@ -273,8 +275,6 @@ if __name__ == "__main__":
         print()
         text += line + "\n\n"
 
-    write_to_clipboard(text)
-
     if args.list:
         answer = query_yes_no(
             "Add '" + args.word + "' to " + args.list + " on Wordnik?",
@@ -288,6 +288,7 @@ if __name__ == "__main__":
             url = "https://www.wordnik.com/words/" + args.word  # + "#discuss"
             print(url)
             webbrowser.open(url, new=2)  # 2 = open in a new tab, if possible
+            write_to_clipboard(text)
 
     if args.url:
         answer = query_yes_no(
