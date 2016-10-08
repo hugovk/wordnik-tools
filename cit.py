@@ -287,7 +287,7 @@ if __name__ == "__main__":
 
             url = "https://www.wordnik.com/words/" + args.word  # + "#discuss"
             print(url)
-            webbrowser.open(url, new=2)  # 2 = open in a new tab, if possible
+            webbrowser.open_new_tab(url.encode('utf-8'))
             write_to_clipboard(text)
 
     if args.url:
@@ -300,7 +300,7 @@ if __name__ == "__main__":
             print("Save to Internet Archive")
             url = "http://web.archive.org/save/" + args.url
             print(url)
-            webbrowser.open(url, new=2)  # 2 = open in a new tab, if possible
+            webbrowser.open_new_tab(url.encode('utf-8'))
 
 
 # End of file
