@@ -13,6 +13,37 @@ from urlparse import urljoin  # Python 2
 from urllib import quote
 
 
+def print_html_header(user, slug, title, subtitle):
+    print("""<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">""")
+    if title:
+        print("    <title>{}</title>".format(title))
+    print("""    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+""")
+    if title:
+        print("<h1>{}</h1>".format(title))
+        print("")
+    if subtitle:
+        print("<h2>{}</h2>".format(subtitle))
+        print("")
+    if user and slug:
+        print("""<h3>Compiled<br>by<br><a href="https://www.wordnik.com/users/{user}">{user}</a><br>on<br>
+<a href="https://www.wordnik.com/lists/{slug}"><img alt="Wordnik" src="wordnik.png" width="100"></h3>
+""".format(user=user, slug=slug, title=title, subtitle=subtitle))
+
+
+def print_html_footer():
+    print("""
+  </body>
+</html>""")
+
+
 def fix_relative_links(soup, base_url):
     """ Change all relative links to absolute links """
     a_tags = soup.find_all("a", href=True)
@@ -73,8 +104,17 @@ if __name__ == "__main__":
         help="Restrict to this user",
         default="hugovk")
     parser.add_argument(
-        '-o', '--outfile',
-        help="Save to this file. Default: <slug>.txt")
+        '-t', '--title',
+        help="Title for HTML output",
+        default="New to me (2016)")
+    parser.add_argument(
+        '-s', '--subtitle',
+        help="Subtitle for HTML output",
+        default="A Lexicon<br>of Newish Words<br>"
+                "That Caught My Eye<br>in 2016")
+    # parser.add_argument(
+        # '-o', '--outfile',
+        # help="Save to this file. Default: <slug>.txt")
     args = parser.parse_args()
 
     if args.word and args.list:
@@ -91,11 +131,16 @@ if __name__ == "__main__":
         words = sort_words(words)
 
     comments = []
+
+    print_html_header(args.user, args.list, args.title, args.subtitle)
+
     for word in words:
         new_comments = scrape_word_comments(word, args.user)
         comments.extend(new_comments)
         for comment in new_comments:
             print(comment)
+
+    print_html_footer()
 
     # word_string = '\n'.join(words)
     # print(word_string)
