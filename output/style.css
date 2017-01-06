@@ -20,3 +20,9 @@ div.body {
 a {
   word-break: break-word;
 }
+
+ul.index {
+ columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}

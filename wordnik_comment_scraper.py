@@ -134,11 +134,20 @@ if __name__ == "__main__":
 
     print_html_header(args.user, args.list, args.title, args.subtitle)
 
+    print('<ul class="index">')
     for word in words:
+        w = word.encode("utf-8")
+        print('<li><a href="#{}">{}</a>'.format(w, w))
+    print('</ul>')
+
+    for word in words:
+        w = word.encode("utf-8")
+        print('<div id="{}">'.format(w))
         new_comments = scrape_word_comments(word, args.user)
         comments.extend(new_comments)
         for comment in new_comments:
             print(comment)
+        print('</div>')
 
     print_html_footer()
 
