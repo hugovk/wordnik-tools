@@ -33,8 +33,10 @@ def print_html_header(user, slug, title, subtitle):
         print("<h2>{}</h2>".format(subtitle))
         print("")
     if user and slug:
-        print("""<h3>Compiled<br>by<br><a href="https://www.wordnik.com/users/{user}">{user}</a><br>on<br>
-<a href="https://www.wordnik.com/lists/{slug}"><img alt="Wordnik" src="wordnik.png" width="100"></h3>
+        print("""<h3>Compiled<br>by<br><a
+        href="https://www.wordnik.com/users/{user}">{user}</a><br>on
+        <br><a href="https://www.wordnik.com/lists/{slug}"><img
+        alt="Wordnik" src="wordnik.png" width="100"></h3>
 """.format(user=user, slug=slug, title=title, subtitle=subtitle))
 
 
@@ -112,9 +114,9 @@ if __name__ == "__main__":
         help="Subtitle for HTML output",
         default="A Lexicon<br>of Newish Words<br>"
                 "That Caught My Eye<br>in 2016")
-    # parser.add_argument(
-        # '-o', '--outfile',
-        # help="Save to this file. Default: <slug>.txt")
+#     parser.add_argument(
+#         '-o', '--outfile',
+#         help="Save to this file. Default: <slug>.txt")
     args = parser.parse_args()
 
     if args.word and args.list:
@@ -151,11 +153,11 @@ if __name__ == "__main__":
 
     print_html_footer()
 
-    # word_string = '\n'.join(words)
-    # print(word_string)
-    # if not args.outfile:
-        # args.outfile = args.permalink + ".txt"
-    # with open(args.outfile, 'w') as f:
-        # f.write(word_string)
+#     word_string = '\n'.join(words)
+#     print(word_string)
+#     if not args.outfile:
+#         args.outfile = args.permalink + ".txt"
+#     with open(args.outfile, 'w') as f:
+#         f.write(word_string)
 
 # End of file
