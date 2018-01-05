@@ -5,16 +5,25 @@ Download a Wordnik list to a text file.
 Scrapes because API only allows access to your own lists.
 """
 from __future__ import print_function
+
 import argparse
-import urllib2
+
 from bs4 import BeautifulSoup  # pip install BeautifulSoup4
+
 # from pprint import pprint
+
+try:
+    # Python 3
+    from urllib.request import urlopen
+except ImportError:
+    # Python 2
+    from urllib2 import urlopen
 
 
 def scrape_list(permalink):
     # """Scrape a Wordnik list and return a list of words"""
     url = "https://wordnik.com/lists/" + permalink
-    page = urllib2.urlopen(url)
+    page = urlopen(url)
     soup = BeautifulSoup(page.read(), "lxml")
     wordlist = soup.find(id="sortable_wordlist")
     words = wordlist.find_all("li", class_="word")
