@@ -27,6 +27,9 @@ install:
 
 script:
  - nosetests
+ - python wordnik_comment_scraper.py -h
+ - python wordnik_list_downloader.py -h
+ - python wordnik_list_scraper.py -h
  - pyflakes .
  - pep8 --statistics --count .
 
