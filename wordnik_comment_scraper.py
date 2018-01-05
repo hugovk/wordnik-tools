@@ -99,8 +99,8 @@ if __name__ == "__main__":
              "https://wordnik.com/words/spinning%%20rust")
     parser.add_argument(
         '-l', '--list',
-        help="List slug, eg. new-to-me--2015 for "
-             "https://wordnik.com/lists/new-to-me--2015")
+        help="List slug, eg. new-to-me--2017 for "
+             "https://wordnik.com/lists/new-to-me--2017")
     parser.add_argument(
         '-u', '--user',
         help="Restrict to this user",
@@ -108,12 +108,12 @@ if __name__ == "__main__":
     parser.add_argument(
         '-t', '--title',
         help="Title for HTML output",
-        default="New to me (2016)")
+        default="New to me (2017)")
     parser.add_argument(
         '-s', '--subtitle',
         help="Subtitle for HTML output",
         default="A Lexicon<br>of Newish Words<br>"
-                "That Caught My Eye<br>in 2016")
+                "That Caught My Eye<br>in 2017")
 #     parser.add_argument(
 #         '-o', '--outfile',
 #         help="Save to this file. Default: <slug>.txt")
