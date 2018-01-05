@@ -4,13 +4,22 @@
 Download comments (from a user) on a word (or list thereof).
 Scrapes because no comment fetching via API.
 """
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
+
 import argparse
-import urllib2
 import sys
+
 from bs4 import BeautifulSoup, Comment  # pip install BeautifulSoup4
-from urlparse import urljoin  # Python 2
-from urllib import quote
+
+try:
+    # Python 3
+    from urllib.parse import quote, urljoin
+    from urllib.request import urlopen
+except ImportError:
+    # Python 2
+    from urllib import quote
+    from urllib2 import urlopen
+    from urlparse import urljoin
 
 
 def print_html_header(user, slug, title, subtitle):
@@ -60,7 +69,7 @@ def scrape_word_comments(slug, user=None):
     found = []
 
     url = "https://wordnik.com/words/" + quote(slug.encode('utf8'), safe="")
-    page = urllib2.urlopen(url)
+    page = urlopen(url)
     soup = BeautifulSoup(page.read(), "lxml")
 
     ul_comments = soup.find(id="commentsOnWord")
