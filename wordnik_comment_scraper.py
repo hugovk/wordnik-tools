@@ -29,17 +29,17 @@ def print_html_header(user, slug, title, subtitle):
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">""")
     if title:
-        print("    <title>{}</title>".format(title))
+        print(f"    <title>{title}</title>")
     print("""    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
 """)
     if title:
-        print("<h1>{}</h1>".format(title))
+        print(f"<h1>{title}</h1>")
         print("")
     if subtitle:
-        print("<h2>{}</h2>".format(subtitle))
+        print(f"<h2>{subtitle}</h2>")
         print("")
     if user and slug:
         print("""<h3>Compiled<br>by<br><a
@@ -148,12 +148,12 @@ if __name__ == "__main__":
     print('<ul class="index">')
     for word in words:
         w = word.encode("utf-8")
-        print('<li><a href="#{}">{}</a>'.format(w, w))
+        print(f'<li><a href="#{w}">{w}</a>')
     print('</ul>')
 
     for word in words:
         w = word.encode("utf-8")
-        print('<div id="{}">'.format(w))
+        print(f'<div id="{w}">')
         new_comments = scrape_word_comments(word, args.user)
         comments.extend(new_comments)
         for comment in new_comments:
