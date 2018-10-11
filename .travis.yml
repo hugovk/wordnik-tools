@@ -29,5 +29,8 @@ script:
  - python wordnik_comment_scraper.py -h
  - python wordnik_list_downloader.py -h
  - python wordnik_list_scraper.py -h
+
+ # Static analyis
+ - rm word_tools.py # Don't analyse the external file
  - flake8 --statistics --count .
  - black --check --diff .
