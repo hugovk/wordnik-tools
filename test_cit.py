@@ -11,7 +11,6 @@ import cit
 
 
 class TestIt(unittest.TestCase):
-
     def test_parse_now_or_past_invalid(self):
         # Arrange
         date = "not a date"
@@ -45,7 +44,7 @@ class TestIt(unittest.TestCase):
         # Assert
         self.assertEqual(ret.day, 31)
         self.assertEqual(ret.month, 12)
-        self.assertEqual(ret.year, now.year-1)
+        self.assertEqual(ret.year, now.year - 1)
 
     def test_parse_now_or_past_today(self):
         # Arrange
@@ -144,15 +143,20 @@ class TestIt(unittest.TestCase):
         ret = cit.embolden(word, quote)
 
         # Assert
-        self.assertEqual(ret, "Embolden <b>this phrase</b> and "
-                              "'<b>This Phrase</b>' and "
-                              "\"<b>THIS PHRASE</b>\".")
+        self.assertEqual(
+            ret,
+            "Embolden <b>this phrase</b> and "
+            "'<b>This Phrase</b>' and "
+            '"<b>THIS PHRASE</b>".',
+        )
 
     def test_source_from_url_washingtonpost(self):
         # Arrange
-        url = ("https://www.washingtonpost.com/news/checkpoint/wp/2016/01/19/"
-               "more-u-s-military-drones-are-crashing-than-ever-as-new-"
-               "problems-emerge/")
+        url = (
+            "https://www.washingtonpost.com/news/checkpoint/wp/2016/01/19/"
+            "more-u-s-military-drones-are-crashing-than-ever-as-new-"
+            "problems-emerge/"
+        )
 
         # Act
         ret = cit.source_from_url(url)
@@ -162,7 +166,7 @@ class TestIt(unittest.TestCase):
 
     def test_source_from_url_twitter(self):
         # Arrange
-        url = ("https://twitter.com/Chris_Boardman/status/691588823419977728")
+        url = "https://twitter.com/Chris_Boardman/status/691588823419977728"
 
         # Act
         ret = cit.source_from_url(url)
@@ -172,8 +176,10 @@ class TestIt(unittest.TestCase):
 
     def test_source_from_url_generic_with_www_and_the(self):
         # Arrange
-        url = ("http://www.theguardian.com/science/2016/jan/20/"
-               "ninth-planet-solar-system-edge-discovery-pluto")
+        url = (
+            "http://www.theguardian.com/science/2016/jan/20/"
+            "ninth-planet-solar-system-edge-discovery-pluto"
+        )
 
         # Act
         ret = cit.source_from_url(url)
@@ -183,8 +189,10 @@ class TestIt(unittest.TestCase):
 
     def test_source_from_url_generic_no_www(self):
         # Arrange
-        url = ("http://yle.fi/uutiset/officials_see_signs_of_hybrid_warfare_in"
-               "_migrant_crisis/8672574")
+        url = (
+            "http://yle.fi/uutiset/officials_see_signs_of_hybrid_warfare_in"
+            "_migrant_crisis/8672574"
+        )
 
         # Act
         ret = cit.source_from_url(url)
@@ -194,9 +202,11 @@ class TestIt(unittest.TestCase):
 
     def test_date_from_url_yyyy_mm_dd(self):
         # Arrange
-        url = ("https://www.washingtonpost.com/news/checkpoint/wp/2016/01/19/"
-               "more-u-s-military-drones-are-crashing-than-ever-as-new-"
-               "problems-emerge/")
+        url = (
+            "https://www.washingtonpost.com/news/checkpoint/wp/2016/01/19/"
+            "more-u-s-military-drones-are-crashing-than-ever-as-new-"
+            "problems-emerge/"
+        )
 
         # Act
         ret = cit.date_from_url(url)
@@ -206,8 +216,10 @@ class TestIt(unittest.TestCase):
 
     def test_date_from_url_yyyy_mon_dd(self):
         # Arrange
-        url = ("http://www.theguardian.com/science/2016/jan/20/"
-               "ninth-planet-solar-system-edge-discovery-pluto")
+        url = (
+            "http://www.theguardian.com/science/2016/jan/20/"
+            "ninth-planet-solar-system-edge-discovery-pluto"
+        )
 
         # Act
         ret = cit.date_from_url(url)
@@ -216,7 +228,7 @@ class TestIt(unittest.TestCase):
         self.assertEqual(ret, "20 January 2016")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
 
 # End of file

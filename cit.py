@@ -35,17 +35,19 @@ except NameError:
 
 # Windows cmd.exe cannot do Unicode so encode first
 def print_it(text):
-    print(text.encode('utf-8'))
+    print(text.encode("utf-8"))
 
 
 def write_to_clipboard(text):
 
     if _platform == "darwin":
         process = subprocess.Popen(
-            'pbcopy', env={'LANG': 'en_US.UTF-8'}, stdin=subprocess.PIPE)
-        process.communicate(text.encode('utf-8'))
+            "pbcopy", env={"LANG": "en_US.UTF-8"}, stdin=subprocess.PIPE
+        )
+        process.communicate(text.encode("utf-8"))
     elif _platform == "win32":
         from Tkinter import Tk
+
         r = Tk()
         r.withdraw()
         r.clipboard_clear()
@@ -67,8 +69,7 @@ def query_yes_no(question, default="yes"):
 
     The "answer" return value is one of "yes" or "no".
     """
-    valid = {"yes": True, "y": True, "ye": True,
-             "no": False, "n": False}
+    valid = {"yes": True, "y": True, "ye": True, "no": False, "n": False}
     if default is None:
         prompt = " [y/n] "
     elif default == "yes":
@@ -81,19 +82,19 @@ def query_yes_no(question, default="yes"):
     while True:
         sys.stdout.write(question + prompt)
         choice = input().lower()
-        if default is not None and choice == '':
+        if default is not None and choice == "":
             return valid[default]
         elif choice in valid:
             return valid[choice]
         else:
-            sys.stdout.write("Please respond with 'yes' or 'no' "
-                             "(or 'y' or 'n').\n")
+            sys.stdout.write("Please respond with 'yes' or 'no' (or 'y' or 'n').\n")
 
 
 def today_timestamp():
     """Return a string like 14 December 2015"""
     import time
-    return time.strftime('%d %B %Y')
+
+    return time.strftime("%d %B %Y")
 
 
 def parse_now_or_past(timestr):
@@ -111,7 +112,7 @@ def parse_now_or_past(timestr):
 
 def format_d_mon_yyyy(date):
     """Return date formatted like 1 February 2016"""
-    return date.strftime('%d %B %Y').lstrip("0")
+    return date.strftime("%d %B %Y").lstrip("0")
 
 
 def validate_date(timestr):
@@ -142,6 +143,7 @@ def source_from_url(url):
         return "@" + username
 
     import tldextract  # pip install tldextract
+
     ext = tldextract.extract(url)
     output = ext.domain
 
@@ -173,37 +175,36 @@ def commandline_arg(bytestring):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Make a citation for Wordnik.",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
-        'word', type=commandline_arg,
-        help="Word to cite, will be bolded if found in quote")
+        "word",
+        type=commandline_arg,
+        help="Word to cite, will be bolded if found in quote",
+    )
 
-#     parser.add_argument('url', nargs='+', help="Quotation link")
+    #     parser.add_argument('url', nargs='+', help="Quotation link")
 
     parser.add_argument(
-        '-p', '--pos', default="n.",
-        help="Part-of-speech, e.g. n. adj.")
+        "-p", "--pos", default="n.", help="Part-of-speech, e.g. n. adj."
+    )
+    parser.add_argument("--defn", help="A definition")
+    parser.add_argument("-q", "--quote", type=commandline_arg, help="Quotation snippet")
+    parser.add_argument("-s", "--source", help="Quotation source")
     parser.add_argument(
-        '--defn',
-        help="A definition")
+        "-sr",
+        "--source_roman",
+        action="store_true",
+        help="Quotation source in roman (i.e. not italic)?",
+    )
+    parser.add_argument("-d", "--date", help="Quotation date. Default: today.")
+    parser.add_argument("-u", "--url", help="Quotation link")
     parser.add_argument(
-        '-q', '--quote', type=commandline_arg,
-        help="Quotation snippet")
-    parser.add_argument(
-        '-s', '--source',
-        help="Quotation source")
-    parser.add_argument(
-        '-sr', '--source_roman', action='store_true',
-        help="Quotation source in roman (i.e. not italic)?")
-    parser.add_argument(
-        '-d', '--date',
-        help="Quotation date. Default: today.")
-    parser.add_argument(
-        '-u', '--url',
-        help="Quotation link")
-    parser.add_argument(
-        '-l', '--list', default="new-to-me--2017",
-        help="Permalink of the Wordnik list to post to")
+        "-l",
+        "--list",
+        default="new-to-me--2017",
+        help="Permalink of the Wordnik list to post to",
+    )
     args = parser.parse_args()
 
     # Format a little something like this:
@@ -226,17 +227,17 @@ if __name__ == "__main__":
         args.date = date_from_url(args.url)
 
     # Line 1
-    text = ''
-    line = ''
+    text = ""
+    line = ""
     if args.word:
-        line += '<b>' + args.word + '</b>'
+        line += "<b>" + args.word + "</b>"
     if args.pos:
         if len(line) > 0:
-            line += ', '
-        line += '<i>' + args.pos + '</i>'
+            line += ", "
+        line += "<i>" + args.pos + "</i>"
     if args.defn:
         if len(line) > 0:
-            line += ' '
+            line += " "
         line += args.defn
     if len(line) > 0:
         print(line)
@@ -244,41 +245,41 @@ if __name__ == "__main__":
         text += line + "\n\n"
 
     # Line 2
-    line = ''
+    line = ""
     if args.url:
         line += '<a href="' + args.url + '">'
     if args.source:
         if args.source_roman:
             line += args.source
         else:
-            line += '<i>' + args.source + '</i>'
+            line += "<i>" + args.source + "</i>"
     if args.date:
-        line += ', ' + validate_date(args.date)
+        line += ", " + validate_date(args.date)
     else:
-        line += ', ' + today_timestamp()
+        line += ", " + today_timestamp()
     if args.url:
-        line += '</a>'
+        line += "</a>"
     if len(line) > 0:
-        line += ':'
+        line += ":"
         print(line)
         print()
         text += line + "\n\n"
 
     # Line 3
-    line = ''
+    line = ""
     if args.quote:
         quote = args.quote
         if args.word:
             quote = embolden(args.word, quote)
-        line = '<blockquote>' + quote + '</blockquote>'
+        line = "<blockquote>" + quote + "</blockquote>"
         print(line)
         print()
         text += line + "\n\n"
 
     if args.list:
         answer = query_yes_no(
-            "Add '" + args.word + "' to " + args.list + " on Wordnik?",
-            default="no")
+            "Add '" + args.word + "' to " + args.list + " on Wordnik?", default="no"
+        )
         if not answer:
             sys.exit("Not posting")
         else:
@@ -287,20 +288,20 @@ if __name__ == "__main__":
 
             url = "https://www.wordnik.com/words/" + args.word  # + "#discuss"
             print(url)
-            webbrowser.open_new_tab(url.encode('utf-8'))
+            webbrowser.open_new_tab(url.encode("utf-8"))
             write_to_clipboard(text)
 
     if args.url:
         answer = query_yes_no(
-            "Save '" + args.url + "' to Internet Archive?",
-            default="no")
+            "Save '" + args.url + "' to Internet Archive?", default="no"
+        )
         if not answer:
             sys.exit("Not saving")
         else:
             print("Save to Internet Archive")
             url = "http://web.archive.org/save/" + args.url
             print(url)
-            webbrowser.open_new_tab(url.encode('utf-8'))
+            webbrowser.open_new_tab(url.encode("utf-8"))
 
 
 # End of file

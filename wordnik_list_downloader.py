@@ -10,6 +10,7 @@ import argparse
 import sys
 import yaml
 from wordnik import swagger, AccountApi, WordListApi
+
 # from pprint import pprint
 
 
@@ -31,8 +32,11 @@ def load_yaml(filename):
     f = open(filename)
     data = yaml.safe_load(f)
     f.close()
-    if not data.viewkeys() >= {'wordnik_username', 'wordnik_password',
-                               'wordnik_api_key'}:
+    if not data.viewkeys() >= {
+        "wordnik_username",
+        "wordnik_password",
+        "wordnik_api_key",
+    }:
         sys.exit("Wordnik credentials missing from YAML: " + filename)
     return data
 
@@ -61,33 +65,40 @@ def sort_words(word_list):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Download a Wordnik list to a text file.",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
-        'permalink',
+        "permalink",
         help="Wordnik permalink, eg. cutthroats for "
-             "http://wordnik.com/lists/cutthroats")
+        "http://wordnik.com/lists/cutthroats",
+    )
     parser.add_argument(
-        '-y', '--yaml', default='M:\\bin\\data\\wordnik.yaml',
-        help="YAML file location containing Wordnik API key")
+        "-y",
+        "--yaml",
+        default="M:\\bin\\data\\wordnik.yaml",
+        help="YAML file location containing Wordnik API key",
+    )
     parser.add_argument(
-        '-o', '--outfile',
-        help="Save to this file. Default: <permalink>.txt")
+        "-o", "--outfile", help="Save to this file. Default: <permalink>.txt"
+    )
     args = parser.parse_args()
 
     credentials = load_yaml(args.yaml)
-    wordnik_client = swagger.ApiClient(credentials['wordnik_api_key'],
-                                       'http://api.wordnik.com/v4')
+    wordnik_client = swagger.ApiClient(
+        credentials["wordnik_api_key"], "http://api.wordnik.com/v4"
+    )
     wordlist_api = WordListApi.WordListApi(wordnik_client)
-    token = get_wordnik_token(credentials['wordnik_username'],
-                              credentials['wordnik_password'])
+    token = get_wordnik_token(
+        credentials["wordnik_username"], credentials["wordnik_password"]
+    )
 
     words = download_list(args.permalink, token)
     words = sort_words(words)
-    word_string = '\n'.join(words)
+    word_string = "\n".join(words)
     print(word_string)
     if not args.outfile:
         args.outfile = args.permalink + ".txt"
-    with open(args.outfile, 'w') as f:
-        f.write(word_string.encode('utf-8'))
+    with open(args.outfile, "w") as f:
+        f.write(word_string.encode("utf-8"))
 
 # End of file

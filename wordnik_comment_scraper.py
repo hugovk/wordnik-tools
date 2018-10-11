@@ -23,18 +23,22 @@ except ImportError:
 
 
 def print_html_header(user, slug, title, subtitle):
-    print("""<!doctype html>
+    print(
+        """<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">""")
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">"""
+    )
     if title:
         print(f"    <title>{title}</title>")
-    print("""    <meta name="viewport" content="width=device-width, initial-scale=1">
+    print(
+        """    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-""")
+"""
+    )
     if title:
         print(f"<h1>{title}</h1>")
         print("")
@@ -42,25 +46,31 @@ def print_html_header(user, slug, title, subtitle):
         print(f"<h2>{subtitle}</h2>")
         print("")
     if user and slug:
-        print("""<h3>Compiled<br>by<br><a
+        print(
+            """<h3>Compiled<br>by<br><a
         href="https://www.wordnik.com/users/{user}">{user}</a><br>on
         <br><a href="https://www.wordnik.com/lists/{slug}"><img
         alt="Wordnik" src="wordnik.png" width="100"></h3>
-""".format(user=user, slug=slug, title=title, subtitle=subtitle))
+""".format(
+                user=user, slug=slug, title=title, subtitle=subtitle
+            )
+        )
 
 
 def print_html_footer():
-    print("""
+    print(
+        """
   </body>
-</html>""")
+</html>"""
+    )
 
 
 def fix_relative_links(soup, base_url):
     """ Change all relative links to absolute links """
     a_tags = soup.find_all("a", href=True)
     for a in a_tags:
-        if a['href'].startswith("/"):
-            a['href'] = urljoin(base_url, a['href'])
+        if a["href"].startswith("/"):
+            a["href"] = urljoin(base_url, a["href"])
     return soup
 
 
@@ -68,7 +78,7 @@ def scrape_word_comments(slug, user=None):
     # """Scrape a Wordnik word and return a list of comments"""
     found = []
 
-    url = "https://wordnik.com/words/" + quote(slug.encode('utf8'), safe="")
+    url = "https://wordnik.com/words/" + quote(slug.encode("utf8"), safe="")
     page = urlopen(url)
     soup = BeautifulSoup(page.read(), "lxml")
 
@@ -79,7 +89,7 @@ def scrape_word_comments(slug, user=None):
         if user:
             span_author = comment.find_all("span", class_="author")[0]
             a = span_author.find_all("a", href=True)[0]
-            if not "/users/" + user == a['href'].lower():
+            if not "/users/" + user == a["href"].lower():
                 continue
 
         body = comment.find_all("div", class_="body")[0]
@@ -88,8 +98,7 @@ def scrape_word_comments(slug, user=None):
             a.extract()
         # Remove HTML comments:
         # <!-- you won't flag your own comments as spam -->
-        for html_comment in body.findAll(text=lambda text: isinstance(
-                text, Comment)):
+        for html_comment in body.findAll(text=lambda text: isinstance(text, Comment)):
             html_comment.extract()
 
         body = fix_relative_links(body, "https://www.wordnik.com")
@@ -101,31 +110,33 @@ def scrape_word_comments(slug, user=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Download comments (from a user) on a word (or list).",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
-        '-w', '--word',
+        "-w",
+        "--word",
         help="Word slug, eg. spinning%%20rust for "
-             "https://wordnik.com/words/spinning%%20rust")
+        "https://wordnik.com/words/spinning%%20rust",
+    )
     parser.add_argument(
-        '-l', '--list',
+        "-l",
+        "--list",
         help="List slug, eg. new-to-me--2017 for "
-             "https://wordnik.com/lists/new-to-me--2017")
+        "https://wordnik.com/lists/new-to-me--2017",
+    )
+    parser.add_argument("-u", "--user", help="Restrict to this user", default="hugovk")
     parser.add_argument(
-        '-u', '--user',
-        help="Restrict to this user",
-        default="hugovk")
+        "-t", "--title", help="Title for HTML output", default="New to me (2017)"
+    )
     parser.add_argument(
-        '-t', '--title',
-        help="Title for HTML output",
-        default="New to me (2017)")
-    parser.add_argument(
-        '-s', '--subtitle',
+        "-s",
+        "--subtitle",
         help="Subtitle for HTML output",
-        default="A Lexicon<br>of Newish Words<br>"
-                "That Caught My Eye<br>in 2017")
-#     parser.add_argument(
-#         '-o', '--outfile',
-#         help="Save to this file. Default: <slug>.txt")
+        default="A Lexicon<br>of Newish Words<br>That Caught My Eye<br>in 2017",
+    )
+    # parser.add_argument(
+    #     '-o', '--outfile',
+    #     help="Save to this file. Default: <slug>.txt")
     args = parser.parse_args()
 
     if args.word and args.list:
@@ -138,6 +149,7 @@ if __name__ == "__main__":
 
     if args.list:
         from wordnik_list_scraper import scrape_list, sort_words
+
         words = scrape_list(args.list)
         words = sort_words(words)
 
@@ -149,7 +161,7 @@ if __name__ == "__main__":
     for word in words:
         w = word.encode("utf-8")
         print(f'<li><a href="#{w}">{w}</a>')
-    print('</ul>')
+    print("</ul>")
 
     for word in words:
         w = word.encode("utf-8")
@@ -158,7 +170,7 @@ if __name__ == "__main__":
         comments.extend(new_comments)
         for comment in new_comments:
             print(comment)
-        print('</div>')
+        print("</div>")
 
     print_html_footer()
 

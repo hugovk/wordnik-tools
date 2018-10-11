@@ -39,7 +39,7 @@ def scrape_list(permalink):
     # pprint(words)
     found = []
     for word in words:
-        if "hidden" not in word['class']:
+        if "hidden" not in word["class"]:
             found.append(word.find(text=True))
     return found
 
@@ -52,23 +52,25 @@ def sort_words(word_list):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Download a Wordnik list to a text file.",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
-        'permalink',
+        "permalink",
         help="Wordnik permalink, eg. cutthroats for "
-             "http://wordnik.com/lists/cutthroats")
+        "http://wordnik.com/lists/cutthroats",
+    )
     parser.add_argument(
-        '-o', '--outfile',
-        help="Save to this file. Default: <permalink>.txt")
+        "-o", "--outfile", help="Save to this file. Default: <permalink>.txt"
+    )
     args = parser.parse_args()
 
     words = scrape_list(args.permalink)
     words = sort_words(words)
-    word_string = '\n'.join(words)
+    word_string = "\n".join(words)
     print(word_string)
     if not args.outfile:
         args.outfile = args.permalink + ".txt"
-    with open(args.outfile, 'w') as f:
+    with open(args.outfile, "w") as f:
         f.write(word_string.encode("utf-8"))
 
 # End of file
