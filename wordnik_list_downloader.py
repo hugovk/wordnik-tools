@@ -5,7 +5,6 @@ Download a Wordnik list to a text file.
 Note: API only allows access to your own lists,
 so use wordnik_list_scraper.py for others' lists.
 """
-from __future__ import print_function
 import argparse
 import sys
 import yaml

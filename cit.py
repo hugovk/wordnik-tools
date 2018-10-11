@@ -10,7 +10,6 @@ Make a citation for Wordnik.
    and opens the word's page so you can manually paste it into the comment box
 5. Asks to save the cited URL to the Internet Archive because linkrot
 """
-from __future__ import print_function, unicode_literals
 import argparse
 from sys import platform as _platform
 from dateutil.parser import parse  # pip install python-dateutil
@@ -24,11 +23,6 @@ import webbrowser
 
 # https://github.com/hugovk/word-tools/blob/master/word_tools.py
 import word_tools
-
-try:
-    input = raw_input  # raw_input in Py2 == input in Py3
-except NameError:
-    pass
 
 # from pprint import pprint
 
@@ -60,7 +54,7 @@ def write_to_clipboard(text):
 
 # http://stackoverflow.com/a/3041990/724176
 def query_yes_no(question, default="yes"):
-    """Ask a yes/no question via raw_input() and return their answer.
+    """Ask a yes/no question via input() and return their answer.
 
     "question" is a string that is presented to the user.
     "default" is the presumed answer if the user just hits <Enter>.

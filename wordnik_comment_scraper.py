@@ -4,22 +4,12 @@
 Download comments (from a user) on a word (or list thereof).
 Scrapes because no comment fetching via API.
 """
-from __future__ import print_function, unicode_literals
-
 import argparse
 import sys
+from urllib.parse import quote, urljoin
+from urllib.request import urlopen
 
 from bs4 import BeautifulSoup, Comment  # pip install BeautifulSoup4
-
-try:
-    # Python 3
-    from urllib.parse import quote, urljoin
-    from urllib.request import urlopen
-except ImportError:
-    # Python 2
-    from urllib import quote
-    from urllib2 import urlopen
-    from urlparse import urljoin
 
 
 def print_html_header(user, slug, title, subtitle):
