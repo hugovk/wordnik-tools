@@ -3,3 +3,4 @@ python-dateutil
 PyYAML
 tldextract
 twitter
+wordnik-py3
