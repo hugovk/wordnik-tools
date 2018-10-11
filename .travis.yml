@@ -2,11 +2,16 @@ language: python
 cache: pip
 sudo: false
 
-python:
- - pypy3
- - 3.6
- - 3.5
- - 3.4
+matrix:
+  fast_finish: true
+  include:
+    - python: pypy3
+    - python: 3.7
+      dist: xenial
+      sudo: true
+    - python: 3.6
+    - python: 3.5
+    - python: 3.4
 
 # whitelist
 # gh-pages is otherwise ignored by Travis CI
@@ -28,6 +33,3 @@ script:
  - python wordnik_list_downloader.py -h
  - python wordnik_list_scraper.py -h
  - flake8 --statistics --count .
-
-matrix:
-  fast_finish: true
