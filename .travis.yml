@@ -1,4 +1,6 @@
 language: python
+cache: pip
+sudo: false
 
 python:
  - pypy
@@ -7,10 +9,6 @@ python:
  - 2.7
  - 3.5
  - 3.4
-
-sudo: false
-
-cache: pip
 
 # whitelist
 # gh-pages is otherwise ignored by Travis CI
@@ -21,18 +19,18 @@ branches:
     - /.*/
 
 install:
+ - pip install -U pip
  - if [[ $TRAVIS_PYTHON_VERSION == 2* || $TRAVIS_PYTHON_VERSION == "pypy" ]]; then pip install -r requirements/python2.txt; fi
  - if [[ $TRAVIS_PYTHON_VERSION == 3* || $TRAVIS_PYTHON_VERSION == "pypy3" ]]; then pip install -r requirements/python3.txt; fi
  - wget https://raw.githubusercontent.com/hugovk/word-tools/master/word_tools.py
- - pip install pycodestyle pyflakes
+ - pip install -U flake8
 
 script:
  - nosetests
  - python wordnik_comment_scraper.py -h
  - python wordnik_list_downloader.py -h
  - python wordnik_list_scraper.py -h
- - pyflakes .
- - pycodestyle --statistics --count .
+ - flake8 --statistics --count .
 
 matrix:
   fast_finish: true
