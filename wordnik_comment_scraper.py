@@ -149,13 +149,11 @@ if __name__ == "__main__":
 
     print('<ul class="index">')
     for word in words:
-        w = word.encode("utf-8")
-        print(f'<li><a href="#{w}">{w}</a>')
+        print(f'<li><a href="#{word}">{word}</a>')
     print("</ul>")
 
     for word in words:
-        w = word.encode("utf-8")
-        print(f'<div id="{w}">')
+        print(f'<div id="{word}">')
         new_comments = scrape_word_comments(word, args.user)
         comments.extend(new_comments)
         for comment in new_comments:
