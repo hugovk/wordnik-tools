@@ -147,10 +147,10 @@ if __name__ == "__main__":
 
     print_html_header(args.user, args.list, args.title, args.subtitle)
 
-    print('<ul class="index">')
+    print('<ol class="index">')
     for word in words:
         print(f'<li><a href="#{word}">{word}</a>')
-    print("</ul>")
+    print("</ol>")
 
     for word in words:
         print(f'<div id="{word}">')

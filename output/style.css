@@ -21,6 +21,7 @@ a {
   word-break: break-word;
 }
 
+ol.index,
 ul.index {
  columns: 2;
   -webkit-columns: 2;
