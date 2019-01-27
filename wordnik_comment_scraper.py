@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
 """
 Download comments (from a user) on a word (or list thereof).
@@ -115,9 +115,9 @@ if __name__ == "__main__":
         "https://wordnik.com/lists/new-to-me--2018",
     )
     parser.add_argument("-u", "--user", help="Restrict to this user", default="hugovk")
-    parser.add_argument(
-        "-t", "--title", help="Title for HTML output", default="New to me (2018)"
-    )
+    # parser.add_argument(
+    #     "-t", "--title", help="Title for HTML output", default="New to me (2018)"
+    # )
     parser.add_argument(
         "-s",
         "--subtitle",
@@ -140,12 +140,12 @@ if __name__ == "__main__":
     if args.list:
         from wordnik_list_scraper import scrape_list, sort_words
 
-        words = scrape_list(args.list)
+        title, words = scrape_list(args.list)
         words = sort_words(words)
 
     comments = []
 
-    print_html_header(args.user, args.list, args.title, args.subtitle)
+    print_html_header(args.user, args.list, title, args.subtitle)
 
     print('<ol class="index">')
     for word in words:

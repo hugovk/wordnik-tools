@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
 """
 Download a Wordnik list to a text file.
@@ -9,7 +9,7 @@ import argparse
 from bs4 import BeautifulSoup  # pip install BeautifulSoup4
 from urllib.request import urlopen
 
-# from pprint import pprint
+from pprint import pprint
 
 
 def scrape_list(permalink):
@@ -19,6 +19,10 @@ def scrape_list(permalink):
     soup = BeautifulSoup(page.read(), "lxml")
     wordlist = soup.find(id="sortable_wordlist")
     words = wordlist.find_all("li", class_="word")
+
+    # <h1 id="headword">Words new to me (2018) <span class="heart_quotes right loveOnly"></span></h1>
+
+    title = soup.find("h1", id="headword").text.strip()
 
     # <li class="word"><a href="/words/thinhead">thinhead</a>
     #   <span class="popular" style="display:none">and appears on
@@ -33,7 +37,8 @@ def scrape_list(permalink):
     for word in words:
         if "hidden" not in word["class"]:
             found.append(word.find(text=True))
-    return found
+
+    return title, found
 
 
 def sort_words(word_list):
@@ -56,13 +61,15 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    words = scrape_list(args.permalink)
+    title, words = scrape_list(args.permalink)
+    print("# " + title + "\n\n")
     words = sort_words(words)
     word_string = "\n".join(words)
     print(word_string)
     if not args.outfile:
         args.outfile = args.permalink + ".txt"
     with open(args.outfile, "w") as f:
-        f.write(word_string.encode("utf-8"))
+        f.write("# " + title + "\n\n")
+        f.write(word_string)
 
 # End of file
