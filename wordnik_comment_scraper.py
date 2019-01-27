@@ -111,18 +111,18 @@ if __name__ == "__main__":
     parser.add_argument(
         "-l",
         "--list",
-        help="List slug, eg. new-to-me--2017 for "
-        "https://wordnik.com/lists/new-to-me--2017",
+        help="List slug, eg. new-to-me--2018 for "
+        "https://wordnik.com/lists/new-to-me--2018",
     )
     parser.add_argument("-u", "--user", help="Restrict to this user", default="hugovk")
     parser.add_argument(
-        "-t", "--title", help="Title for HTML output", default="New to me (2017)"
+        "-t", "--title", help="Title for HTML output", default="New to me (2018)"
     )
     parser.add_argument(
         "-s",
         "--subtitle",
         help="Subtitle for HTML output",
-        default="A Lexicon<br>of Newish Words<br>That Caught My Eye<br>in 2017",
+        default="A Lexicon<br>of Newish Words<br>That Caught My Eye<br>in 2018",
     )
     # parser.add_argument(
     #     '-o', '--outfile',

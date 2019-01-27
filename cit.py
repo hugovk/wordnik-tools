@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
 """
 Make a citation for Wordnik.
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-l",
         "--list",
-        default="new-to-me--2017",
+        default="new-to-me--2019",
         help="Permalink of the Wordnik list to post to",
     )
     args = parser.parse_args()
